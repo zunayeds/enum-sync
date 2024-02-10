@@ -2,7 +2,8 @@ import { LanguageConfigurationBase } from ".";
 import { StringCasingType } from "../enums";
 
 export const DART_CONFIGURATION: LanguageConfigurationBase = {
-    nameCasing: StringCasingType.KebabCase,
+    fileNameCasing: StringCasingType.SnakeCase,
+    nameCasing: StringCasingType.PascalCase,
     itemCasing: StringCasingType.CamelCase,
     fileExtension: 'dart'
 }

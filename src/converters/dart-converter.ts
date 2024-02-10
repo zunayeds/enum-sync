@@ -24,6 +24,7 @@ export class DartConverter extends EnumConverterBase {
 
         genericEnums.forEach(genericEnum => {
             const content = this.convertEnum(genericEnum);
+            
             fileContents.push({
                 fileName: FileProcessor.generateFileName(genericEnum.name, DART_CONFIGURATION),
                 fileContent: content
@@ -48,7 +49,7 @@ export class DartConverter extends EnumConverterBase {
             genericEnum.items.forEach(enumItem => {
                 fileContent += '\n\t';
                 const isNumber = TypeHelper.isNumber(enumItem.value);
-                fileContent += `static ${isNumber ? 'int' : 'String'} ${enumItem.name} = ${isNumber ? enumItem.value : StringHelper.addQuotation(enumItem.value)};`;
+                fileContent += `static ${isNumber ? 'int' : 'String'} get ${enumItem.name} => ${isNumber ? enumItem.value : StringHelper.addQuotation(enumItem.value)};`;
             });
         }
 

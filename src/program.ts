@@ -25,11 +25,11 @@ export abstract class Program {
         program
             .version('1.0.0')
             .description('A cross-platform enum generator')
-            .requiredOption('-src, --source <directory>', 'Source Directory', this.setSource)
-            .requiredOption('-src-lng --source-language <language>', 'Source Language', this.setSourceLanguage)
-            .requiredOption('-dst --destination <directory>', 'Destination Directory', this.setDestination)
-            .requiredOption('-dst-lng --destination-language <language>', 'Destination Language', this.setDestinationLanguage)
-            .requiredOption('-g', 'Generate File(s)', this.generate);
+            .requiredOption('-src, --source <directory>', 'Source Directory', this.setSource.bind(this))
+            .requiredOption('-src-lng --source-language <language>', 'Source Language', this.setSourceLanguage.bind(this))
+            .requiredOption('-dst --destination <directory>', 'Destination Directory', this.setDestination.bind(this))
+            .requiredOption('-dst-lng --destination-language <language>', 'Destination Language', this.setDestinationLanguage.bind(this))
+            .requiredOption('-g', 'Generate File(s)', this.generate.bind(this));
 
         program.parse(process.argv);
     }
@@ -39,9 +39,6 @@ export abstract class Program {
     }
 
     private static setSourceLanguage(language: string): void {
-        // if (StringHelper.isNullOrWritespace(language)) {
-        //     throw error('Please provide valid');
-        // }
         if (!SUPPORTED_SOURCE_LANGUAGES.includes(language)) {
             throw error('Please source language is not supported');
         }
@@ -69,12 +66,14 @@ export abstract class Program {
 
             if (Configuration.separateFileForEachType) {
                 filesToProcess.forEach(file => {
-                    const genericEnums = this.enumParser.parseFile(file);
+                    const fileContent = FileProcessor.readFile(file);
+                    const genericEnums = this.enumParser.parseFileContent(fileContent);
                     files = files.concat(this.enumConverter.convertEnumsToFiles(genericEnums));
                 });
             } else {
                 filesToProcess.forEach(file => {
-                    const genericEnums = this.enumParser.parseFile(file);
+                    const fileContent = FileProcessor.readFile(file);
+                    const genericEnums = this.enumParser.parseFileContent(fileContent);
                     const fileName = FileProcessor.getFileNameFromPath(file, false);
                     files.push({
                         fileName: FileProcessor.generateFileName(fileName, this.destinationLanguageConfiguration),
@@ -84,11 +83,12 @@ export abstract class Program {
             }
 
             files.forEach(file => {
-                const folderSeprator = this.destinationDirectory.includes('/') ? '/' : '\\';
-                const fullFilePath = `${this.destinationDirectory}${folderSeprator}${file.fileName}`;
+                const fullFilePath = `${this.destinationDirectory}${FolderProcessor.getSeparator(this.destinationDirectory)}${file.fileName}`;
 
                 FileProcessor.writeIntoFile(fullFilePath, file.fileContent);
             });
+
+            console.log('File generated');
         }
     }
 

@@ -4,7 +4,7 @@ import { GenericEnum, GenericEnumItem } from "../models";
 
 export class JavaScriptParser extends EnumParserBase {
     // Parses the enum definitions from a string, considering optional 'export' and trailing semicolons.
-    public parseFile(fileContent: string): GenericEnum[] {
+    public parseFileContent(fileContent: string): GenericEnum[] {
         // Adjusted regex to match optional 'export' and semicolon at the end of the enum declaration
         const enumRegex = /(?:export\s+)?enum\s+(\w+)\s*\{([^}]+)\}\s*;?/g;
         let match;

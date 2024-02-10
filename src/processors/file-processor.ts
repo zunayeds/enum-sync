@@ -4,7 +4,7 @@ import { StringCasingType } from '../enums';
 import { StringHelper } from '../helpers';
 
 export abstract class FileProcessor {
-    public readFile(filePath: string): string {
+    public static readFile(filePath: string): string {
         return readFileSync(filePath).toString();
     }
 
@@ -15,14 +15,10 @@ export abstract class FileProcessor {
         });
     }
 
-    appendToFile(filePath: string, fileContent: string): void {
-
-    }
-
     public static generateFileName(name: string, configuration: LanguageConfigurationBase): string {
         let fileName: string;
 
-        switch(configuration.nameCasing) {
+        switch(configuration.fileNameCasing) {
             case StringCasingType.CamelCase:
                 fileName = StringHelper.convertToCamelCase(name);
                 break;
@@ -50,8 +46,12 @@ export abstract class FileProcessor {
             fileName = fileName.split(separator).pop() || fileName;
         });
 
+        // Check and remove extension
         if (!withExtension) {
-            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+            const lastDotIndex = fileName.lastIndexOf('.');
+            if (lastDotIndex > 0) {
+                fileName = fileName.substring(0, lastDotIndex);
+            }
         }
 
         return fileName;
