@@ -3,7 +3,7 @@ import { EnumType } from "../enums";
 import { StringHelper, TypeHelper } from "../helpers";
 import { DART_CONFIGURATION } from "../language-configurations";
 import { CodeFile, GenericEnum } from "../models";
-import { FileService } from "../services";
+import { FileProcessor } from "../processors";
 
 export class DartConverter extends EnumConverterBase {
     public convertEnumsToString(genericEnums: GenericEnum[]): string {
@@ -26,7 +26,7 @@ export class DartConverter extends EnumConverterBase {
             const content = this.convertEnum(genericEnum);
             
             fileContents.push({
-                fileName: FileService.generateFileName(genericEnum.name, DART_CONFIGURATION),
+                fileName: FileProcessor.generateFileName(genericEnum.name, DART_CONFIGURATION),
                 fileContent: content
             });
         });
