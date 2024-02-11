@@ -3,7 +3,7 @@ import { LanguageConfigurationBase } from '../language-configurations';
 import { StringCasingType } from '../enums';
 import { StringHelper } from '../helpers';
 
-export abstract class FileProcessor {
+export abstract class FileService {
     public static readFile(filePath: string): string {
         return readFileSync(filePath).toString();
     }
