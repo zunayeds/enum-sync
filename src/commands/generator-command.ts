@@ -56,12 +56,16 @@ export abstract class GeneratorCommand {
 
     private static validateCommandParamters(source: string, sourceLanguage: string, destination: string, destinationLanguage: string): void {
         try {
+            if (!FolderService.isValidDirectory(source)) {
+                throw new Error('Source directory is not valid.');
+            }
+
             if (!SUPPORTED_SOURCE_LANGUAGES.includes(sourceLanguage)) {
-                throw new Error('Source language is not supported');
+                throw new Error('Source language is not supported.');
             }
 
             if (!SUPPORTED_DESTINATION_LANGUAGES.includes(destinationLanguage)) {
-                throw new Error('Destination language is not supported');
+                throw new Error('Destination language is not supported.');
             }
 
             this.sourceDirectory = source;
@@ -74,15 +78,23 @@ export abstract class GeneratorCommand {
     }
 
     private static setGeneratorProperties(): void {
-        this.sourceLanguageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.sourceLanguage];
-        this.destinationLanguageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.destinationLanguage];
+        try {
+            this.sourceLanguageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.sourceLanguage];
+            this.destinationLanguageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.destinationLanguage];
 
-        if (this.sourceLanguageConfiguration.enumParser) {
-            this.enumParser = this.sourceLanguageConfiguration.enumParser;
-        }
-        
-        if (this.destinationLanguageConfiguration.enumConverter) {
-            this.enumConverter = this.destinationLanguageConfiguration.enumConverter;
+            if (this.sourceLanguageConfiguration.enumParser) {
+                this.enumParser = this.sourceLanguageConfiguration.enumParser;
+            } else {
+                throw new Error('Enum Parser not implemented for the source language.');
+            }
+            
+            if (this.destinationLanguageConfiguration.enumConverter) {
+                this.enumConverter = this.destinationLanguageConfiguration.enumConverter;
+            } else {
+                throw new Error('Enum Converter not implemented for the destination language.');
+            }
+        } catch(error: unknown) {
+            ErrorHelper.handleException(error);
         }
     }
 }

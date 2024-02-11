@@ -1,5 +1,5 @@
 import { error } from "console";
-import { existsSync, readdirSync } from "fs";
+import { existsSync, readdirSync, statSync } from "fs";
 
 export abstract class FolderService {
     public static getFiles(folderPath: string, fileExtension: string, isRecursive: boolean = true): string[] {
@@ -15,5 +15,14 @@ export abstract class FolderService {
 
     public static getSeparator(folderPath: string) {
         return folderPath.includes('/') ? '/' : '\\';
+    }
+
+    public static isValidDirectory(folderPath: string) {
+        try {
+            const stat = statSync(folderPath);
+            return stat.isDirectory();
+        } catch(error: unknown) {
+            return false;
+        }
     }
 }
