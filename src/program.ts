@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import { program } from "commander";
-import { GeneratorCommandService } from "./services/generator-command-service";
+import { GeneratorCommand } from "./commands";
 
 export abstract class Program {
     
@@ -19,7 +19,7 @@ export abstract class Program {
             .requiredOption('-dst --destination <directory>', 'Destination Directory')
             .requiredOption('-dst-lng --destination-language <language>', 'Destination Language')
             .action((cmd) => 
-                GeneratorCommandService.generate(cmd.source, cmd.sourceLanguage, cmd.destination, cmd.destinationLanguage)
+                GeneratorCommand.generate(cmd.source, cmd.sourceLanguage, cmd.destination, cmd.destinationLanguage)
             );
 
         program.parse(process.argv);

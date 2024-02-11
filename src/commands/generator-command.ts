@@ -1,5 +1,4 @@
-import { error } from "console";
-import { FileService, FolderService } from ".";
+import { FileService, FolderService } from "../services";
 import { Configuration } from "../configuration";
 import { SUPPORTED_DESTINATION_LANGUAGES, SUPPORTED_SOURCE_LANGUAGES } from "../constants";
 import { DartConverter, EnumConverterBase } from "../converters";
@@ -8,7 +7,7 @@ import { DART_CONFIGURATION, JAVASCRIPT_CONFIGURATION, LanguageConfigurationBase
 import { CodeFile } from "../models";
 import { EnumParserBase, JavaScriptParser } from "../parsers";
 
-export abstract class GeneratorCommandService {
+export abstract class GeneratorCommand {
     private static sourceDirectory: string;
     private static sourceLanguage: string;
     private static destinationDirectory: string;
@@ -56,18 +55,22 @@ export abstract class GeneratorCommandService {
     }
 
     private static validateCommandParamters(source: string, sourceLanguage: string, destination: string, destinationLanguage: string): void {
-        if (!SUPPORTED_SOURCE_LANGUAGES.includes(sourceLanguage)) {
-            throw error('Source language is not supported');
-        }
+        try {
+            if (!SUPPORTED_SOURCE_LANGUAGES.includes(sourceLanguage)) {
+                throw new Error('Source language is not supported');
+            }
 
-        if (!SUPPORTED_DESTINATION_LANGUAGES.includes(destinationLanguage)) {
-            throw error('Destination language is not supported');
-        }
+            if (!SUPPORTED_DESTINATION_LANGUAGES.includes(destinationLanguage)) {
+                throw new Error('Destination language is not supported');
+            }
 
-        this.sourceDirectory = source;
-        this.sourceLanguage = sourceLanguage;
-        this.destinationDirectory = destination;
-        this.destinationLanguage = destinationLanguage;
+            this.sourceDirectory = source;
+            this.sourceLanguage = sourceLanguage;
+            this.destinationDirectory = destination;
+            this.destinationLanguage = destinationLanguage;
+        } catch (error: unknown) {
+            console.error(error as string);
+        }
     }
 
     private static setGeneratorProperties(): void {
