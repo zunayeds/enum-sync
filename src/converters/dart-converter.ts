@@ -1,7 +1,7 @@
 import { EnumConverterBase } from ".";
+import { DART_CONFIGURATION } from "../constants/language-configurations";
 import { EnumType } from "../enums";
 import { StringHelper, TypeHelper } from "../helpers";
-import { DART_CONFIGURATION } from "../language-configurations";
 import { CodeFile, GenericEnum } from "../models";
 import { FileService } from "../services";
 

@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
-import { LanguageConfigurationBase } from '../language-configurations';
 import { StringCasingType } from '../enums';
 import { StringHelper } from '../helpers';
+import { LanguageConfigurationBase } from '../models';
 
 export abstract class FileService {
     public static readFile(filePath: string): string {
@@ -16,7 +16,7 @@ export abstract class FileService {
     }
 
     public static generateFileName(name: string, configuration: LanguageConfigurationBase): string {
-        let fileName: string;
+        let fileName: string = name;
 
         switch(configuration.fileNameCasing) {
             case StringCasingType.CamelCase:

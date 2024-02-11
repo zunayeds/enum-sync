@@ -1,17 +1,17 @@
 import { FileService, FolderService } from "../services";
 import { Configuration } from "../configuration";
-import { SUPPORTED_DESTINATION_LANGUAGES, SUPPORTED_SOURCE_LANGUAGES } from "../constants";
-import { DartConverter, EnumConverterBase } from "../converters";
+import { LANGUAGE_CONFIG_MAPPINGS, SUPPORTED_DESTINATION_LANGUAGES, SUPPORTED_SOURCE_LANGUAGES } from "../constants";
+import { EnumConverterBase } from "../converters";
 import { Language } from "../enums";
-import { DART_CONFIGURATION, JAVASCRIPT_CONFIGURATION, LanguageConfigurationBase, TYPESCRIPT_CONFIGURATION } from "../language-configurations";
-import { CodeFile } from "../models";
-import { EnumParserBase, JavaScriptParser } from "../parsers";
+import { CodeFile, LanguageConfigurationBase } from "../models";
+import { EnumParserBase } from "../parsers";
+import { ErrorHelper } from "../helpers";
 
 export abstract class GeneratorCommand {
     private static sourceDirectory: string;
-    private static sourceLanguage: string;
+    private static sourceLanguage: Language;
     private static destinationDirectory: string;
-    private static destinationLanguage: string;
+    private static destinationLanguage: Language;
     private static sourceLanguageConfiguration: LanguageConfigurationBase;
     private static destinationLanguageConfiguration: LanguageConfigurationBase;
     private static enumParser: EnumParserBase;
@@ -65,31 +65,24 @@ export abstract class GeneratorCommand {
             }
 
             this.sourceDirectory = source;
-            this.sourceLanguage = sourceLanguage;
+            this.sourceLanguage = sourceLanguage as Language;
             this.destinationDirectory = destination;
-            this.destinationLanguage = destinationLanguage;
+            this.destinationLanguage = destinationLanguage as Language;
         } catch (error: unknown) {
-            console.error(error as string);
+            ErrorHelper.handleException(error);
         }
     }
 
     private static setGeneratorProperties(): void {
-        switch(this.sourceLanguage) {
-            case Language.JavaScript:
-                this.sourceLanguageConfiguration = JAVASCRIPT_CONFIGURATION;
-                this.enumParser = new JavaScriptParser();
-                break;
-            case Language.TypeScript:
-                this.sourceLanguageConfiguration = TYPESCRIPT_CONFIGURATION;
-                this.enumParser = new JavaScriptParser();
-                break;
-        }
+        this.sourceLanguageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.sourceLanguage];
+        this.destinationLanguageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.destinationLanguage];
 
-        switch(this.destinationLanguage) {
-            case Language.Dart:
-                this.destinationLanguageConfiguration = DART_CONFIGURATION;
-                this.enumConverter = new DartConverter();
-                break;
+        if (this.sourceLanguageConfiguration.enumParser) {
+            this.enumParser = this.sourceLanguageConfiguration.enumParser;
+        }
+        
+        if (this.destinationLanguageConfiguration.enumConverter) {
+            this.enumConverter = this.destinationLanguageConfiguration.enumConverter;
         }
     }
 }
