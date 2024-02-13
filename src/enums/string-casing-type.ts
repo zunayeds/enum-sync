@@ -1,6 +1,6 @@
 export enum StringCasingType {
-    CamelCase,
-    PascalCase,
-    KebabCase,
-    SnakeCase
+	CamelCase,
+	PascalCase,
+	KebabCase,
+	SnakeCase
 }

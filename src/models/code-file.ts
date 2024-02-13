@@ -1,4 +1,4 @@
 export interface CodeFile {
-    fileName: string;
-    fileContent: string;
+	fileName: string;
+	fileContent: string;
 }

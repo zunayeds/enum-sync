@@ -1,5 +1,5 @@
 export enum Language {
-    JavaScript = 'js',
-    TypeScript = 'ts',
-    Dart = 'dart'
+	JavaScript = 'js',
+	TypeScript = 'ts',
+	Dart = 'dart'
 }

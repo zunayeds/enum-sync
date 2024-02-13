@@ -1,10 +1,8 @@
-import { Language } from "../enums";
+import { Language } from '../enums';
 
 export const SUPPORTED_SOURCE_LANGUAGES: string[] = [
-    Language.JavaScript,
-    Language.TypeScript
+	Language.JavaScript,
+	Language.TypeScript
 ];
 
-export const SUPPORTED_DESTINATION_LANGUAGES: string[] = [
-    Language.Dart
-];
+export const SUPPORTED_DESTINATION_LANGUAGES: string[] = [Language.Dart];

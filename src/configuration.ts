@@ -1,5 +1,5 @@
-import { GeneratorConfiguration } from "./models";
+import { GeneratorConfiguration } from './models';
 
 export const Configuration: GeneratorConfiguration = {
-    separateFileForEachType: true
+	separateFileForEachType: true
 };

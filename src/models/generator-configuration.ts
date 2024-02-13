@@ -1,3 +1,3 @@
 export interface GeneratorConfiguration {
-    separateFileForEachType: boolean;
+	separateFileForEachType: boolean;
 }

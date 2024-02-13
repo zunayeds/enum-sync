@@ -1,3 +1,3 @@
-import { Program } from "./program";
+import { Program } from './program';
 
-Program.initialize();
+Program.initialize().then(() => {});
