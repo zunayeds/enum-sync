@@ -32,7 +32,7 @@ export abstract class StringHelper {
 	public static addQuotation(
 		value: string | number,
 		doubleQuote: boolean = true
-	) {
+	): string {
 		if (doubleQuote) return `"${value.toString()}"`;
 		else return `'${value.toString()}'`;
 	}

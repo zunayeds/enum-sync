@@ -12,7 +12,7 @@ import { EnumParserBase } from '../parsers';
 import { ErrorHelper } from '../utilities';
 import { LogService } from '../services/log-service';
 
-export abstract class GeneratorCommand {
+export abstract class GenerateCommand {
 	private static sourceDirectory: string;
 	private static sourceLanguage: Language;
 	private static destinationDirectory: string;
@@ -22,7 +22,7 @@ export abstract class GeneratorCommand {
 	private static enumParser: EnumParserBase;
 	private static enumConverter: EnumConverterBase;
 
-	public static async generate(
+	public static async generateFiles(
 		source: string,
 		sourceLanguage: string,
 		destination: string,

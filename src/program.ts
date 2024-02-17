@@ -1,11 +1,23 @@
 #! /usr/bin/env node
 
-import { program } from 'commander';
-import { GeneratorCommand } from './commands';
+import { Command, program } from 'commander';
+import { ConfigCommand, GenerateCommand } from './commands';
 
 export abstract class Program {
 	public static async initialize() {
 		program.version('1.0.0').description('A cross-platform enum generator');
+
+		const configCommand = new Command('config');
+
+		configCommand
+			.command('list')
+			.description('List all configuration values')
+			.option('--json', 'Output in JSON format')
+			.action(cmd => {
+				ConfigCommand.listAllConfig(cmd.json);
+			});
+
+		program.addCommand(configCommand);
 
 		program
 			.command('gen')
@@ -25,7 +37,7 @@ export abstract class Program {
 			)
 			.action(
 				async cmd =>
-					await GeneratorCommand.generate(
+					await GenerateCommand.generateFiles(
 						cmd.source,
 						cmd.sourceLanguage,
 						cmd.destination,
