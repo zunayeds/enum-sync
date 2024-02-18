@@ -1,4 +1,4 @@
-import { StringCasingType } from '../../enums';
+import { Language, StringCasingType } from '../../enums';
 import { LanguageConfigurationBase } from '../../models';
 import { JavaScriptParser } from '../../parsers';
 
@@ -7,5 +7,6 @@ export const JAVASCRIPT_CONFIGURATION: LanguageConfigurationBase = {
 	nameCasing: StringCasingType.PascalCase,
 	itemCasing: StringCasingType.PascalCase,
 	fileExtension: 'js',
-	enumParser: new JavaScriptParser()
+	enumParserRegex: /(?:export\s+)?enum\s+(\w+)\s*\{([^}]+)\}\s*;?/g,
+	enumBodyParserRegex: /(\w+)\s*(?:=\s*([^,]+))?/g
 };

@@ -6,19 +6,6 @@ import { CodeFile, GenericEnum } from '../models';
 import { FileService } from '../services';
 
 export class DartConverter extends EnumConverterBase {
-	public convertEnumsToString(genericEnums: GenericEnum[]): string {
-		let fileContent: string = '';
-
-		genericEnums.forEach(genericEnum => {
-			fileContent += '\n\n';
-			fileContent += this.convertEnum(genericEnum);
-		});
-
-		fileContent = fileContent.replace(/^\n\n/, '');
-
-		return fileContent;
-	}
-
 	public convertEnumsToFiles(genericEnums: GenericEnum[]): CodeFile[] {
 		let fileContents: CodeFile[] = [];
 

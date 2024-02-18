@@ -1,7 +1,7 @@
 import { EnumParserBase } from '.';
 import { GenericEnumItem } from '../models';
 
-export class JavaScriptParser extends EnumParserBase {
+export class CSharpParser extends EnumParserBase {
 	public parseEnumBody(enumBody: string): GenericEnumItem[] {
 		const itemRegex = this.languageConfiguration
 			.enumBodyParserRegex as RegExp;

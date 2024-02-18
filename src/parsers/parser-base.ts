@@ -1,11 +1,48 @@
-import { EnumType } from '../enums';
-import { GenericEnum, GenericEnumItem } from '../models';
+import { LANGUAGE_CONFIG_MAPPINGS } from '../constants';
+import { EnumType, Language } from '../enums';
+import {
+	GenericEnum,
+	GenericEnumItem,
+	LanguageConfigurationBase
+} from '../models';
 
 export abstract class EnumParserBase {
-	abstract parseFileContent(fileContent: string): GenericEnum[];
+	protected readonly languageConfiguration: LanguageConfigurationBase;
+
+	constructor(protected readonly language: Language) {
+		this.languageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.language];
+	}
+
 	abstract parseEnumBody(enumBody: string): GenericEnumItem[];
 
-	determineEnumType(items: GenericEnumItem[]): EnumType {
+	public parseFileContent(fileContent: string): GenericEnum[] {
+		return this.parseFileContentInternal(fileContent);
+	}
+
+	protected parseFileContentInternal(fileContent: string): GenericEnum[] {
+		let match;
+		const parsedEnums: GenericEnum[] = [];
+
+		while (
+			(match = (
+				this.languageConfiguration.enumParserRegex as RegExp
+			).exec(fileContent)) !== null
+		) {
+			const enumName = match[1];
+			const enumBody = match[2];
+			const enumItems = this.parseEnumBody(enumBody);
+			const enumType = this.determineEnumType(enumItems);
+			parsedEnums.push({
+				name: enumName,
+				type: enumType,
+				items: enumItems
+			});
+		}
+
+		return parsedEnums;
+	}
+
+	protected determineEnumType(items: GenericEnumItem[]): EnumType {
 		let hasNumber = false;
 		let hasString = false;
 

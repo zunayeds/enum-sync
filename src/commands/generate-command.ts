@@ -2,12 +2,17 @@ import { FileService, FolderService } from '../services';
 import { Configuration } from '../configuration';
 import {
 	LANGUAGE_CONFIG_MAPPINGS,
+	LANGUAGE_ENGINE_MAPPINGS,
 	SUPPORTED_SOURCE_LANGUAGES,
 	SUPPORTED_TARGET_LANGUAGES
 } from '../constants';
 import { EnumConverterBase } from '../converters';
 import { Language } from '../enums';
-import { CodeFile, LanguageConfigurationBase } from '../models';
+import {
+	CodeFile,
+	LanguageConfigurationBase,
+	LanguageEngineConfigurationBase
+} from '../models';
 import { EnumParserBase } from '../parsers';
 import { ErrorHelper } from '../utilities';
 import { LogService } from '../services/log-service';
@@ -19,6 +24,8 @@ export abstract class GenerateCommand {
 	private static targetLanguage: Language;
 	private static sourceLanguageConfiguration: LanguageConfigurationBase;
 	private static targetLanguageConfiguration: LanguageConfigurationBase;
+	private static sourceLanguageEngine: LanguageEngineConfigurationBase;
+	private static targetLanguageEngine: LanguageEngineConfigurationBase;
 	private static enumParser: EnumParserBase;
 	private static enumConverter: EnumConverterBase;
 
@@ -96,12 +103,24 @@ export abstract class GenerateCommand {
 				throw new Error('Source directory is not valid.');
 			}
 
+			if (source === target) {
+				throw new Error(
+					'Source and Target directories cannot be the same.'
+				);
+			}
+
 			if (!SUPPORTED_SOURCE_LANGUAGES.includes(sourceLanguage)) {
 				throw new Error('Source language is not supported.');
 			}
 
 			if (!SUPPORTED_TARGET_LANGUAGES.includes(targetLanguage)) {
 				throw new Error('Target language is not supported.');
+			}
+
+			if (sourceLanguage === targetLanguage) {
+				throw new Error(
+					'Source and Target languages cannot be the same.'
+				);
 			}
 
 			this.sourceDirectory = source;
@@ -119,18 +138,21 @@ export abstract class GenerateCommand {
 				LANGUAGE_CONFIG_MAPPINGS[this.sourceLanguage];
 			this.targetLanguageConfiguration =
 				LANGUAGE_CONFIG_MAPPINGS[this.targetLanguage];
+			this.sourceLanguageEngine =
+				LANGUAGE_ENGINE_MAPPINGS[this.sourceLanguage];
+			this.targetLanguageEngine =
+				LANGUAGE_ENGINE_MAPPINGS[this.targetLanguage];
 
-			if (this.sourceLanguageConfiguration.enumParser) {
-				this.enumParser = this.sourceLanguageConfiguration.enumParser;
+			if (this.sourceLanguageEngine.enumParser) {
+				this.enumParser = this.sourceLanguageEngine.enumParser;
 			} else {
 				throw new Error(
 					'Enum Parser not implemented for the source language.'
 				);
 			}
 
-			if (this.targetLanguageConfiguration.enumConverter) {
-				this.enumConverter =
-					this.targetLanguageConfiguration.enumConverter;
+			if (this.targetLanguageEngine.enumConverter) {
+				this.enumConverter = this.targetLanguageEngine.enumConverter;
 			} else {
 				throw new Error(
 					'Enum Converter not implemented for the target language.'

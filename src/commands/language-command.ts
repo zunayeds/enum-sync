@@ -44,7 +44,7 @@ export abstract class LanguageCommand {
 			.join(', ');
 
 		console.log(
-			`Supported ${this.sourceLanguageHeader}s: ${sourceLangs}\nSupported${this.targetLanguageHeader}s: ${targetLangs}`
+			`Supported ${this.sourceLanguageHeader}s: ${sourceLangs}\nSupported ${this.targetLanguageHeader}s: ${targetLangs}`
 		);
 	}
 

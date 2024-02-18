@@ -1,12 +1,14 @@
 import { Language } from '../enums';
-import { LanguageConfigMapType } from '../types';
+import { LanguageBaseConfigMapType } from '../types';
 import {
+	CSHARP_CONFIGURATION,
 	DART_CONFIGURATION,
 	JAVASCRIPT_CONFIGURATION,
 	TYPESCRIPT_CONFIGURATION
 } from './language-configurations';
 
-export const LANGUAGE_CONFIG_MAPPINGS: LanguageConfigMapType = {
+export const LANGUAGE_CONFIG_MAPPINGS: LanguageBaseConfigMapType = {
+	[Language.CSharp]: CSHARP_CONFIGURATION,
 	[Language.JavaScript]: JAVASCRIPT_CONFIGURATION,
 	[Language.TypeScript]: TYPESCRIPT_CONFIGURATION,
 	[Language.Dart]: DART_CONFIGURATION
