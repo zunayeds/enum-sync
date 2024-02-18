@@ -2,8 +2,8 @@ import { FileService, FolderService } from '../services';
 import { Configuration } from '../configuration';
 import {
 	LANGUAGE_CONFIG_MAPPINGS,
-	SUPPORTED_DESTINATION_LANGUAGES,
-	SUPPORTED_SOURCE_LANGUAGES
+	SUPPORTED_SOURCE_LANGUAGES,
+	SUPPORTED_TARGET_LANGUAGES
 } from '../constants';
 import { EnumConverterBase } from '../converters';
 import { Language } from '../enums';
@@ -15,24 +15,24 @@ import { LogService } from '../services/log-service';
 export abstract class GenerateCommand {
 	private static sourceDirectory: string;
 	private static sourceLanguage: Language;
-	private static destinationDirectory: string;
-	private static destinationLanguage: Language;
+	private static targetDirectory: string;
+	private static targetLanguage: Language;
 	private static sourceLanguageConfiguration: LanguageConfigurationBase;
-	private static destinationLanguageConfiguration: LanguageConfigurationBase;
+	private static targetLanguageConfiguration: LanguageConfigurationBase;
 	private static enumParser: EnumParserBase;
 	private static enumConverter: EnumConverterBase;
 
 	public static async generateFiles(
 		source: string,
 		sourceLanguage: string,
-		destination: string,
-		destinationLanguage: string
+		target: string,
+		targetLanguage: string
 	) {
 		await this.validateCommandParamters(
 			source,
 			sourceLanguage,
-			destination,
-			destinationLanguage
+			target,
+			targetLanguage
 		);
 
 		await this.setGeneratorProperties();
@@ -66,7 +66,7 @@ export abstract class GenerateCommand {
 					files.push({
 						fileName: FileService.generateFileName(
 							fileName,
-							this.destinationLanguageConfiguration
+							this.targetLanguageConfiguration
 						),
 						fileContent:
 							this.enumConverter.convertEnumsToString(
@@ -77,7 +77,7 @@ export abstract class GenerateCommand {
 			}
 
 			files.forEach(file => {
-				const fullPath = `${this.destinationDirectory}${FolderService.getSeparator(this.destinationDirectory)}${file.fileName}`;
+				const fullPath = `${this.targetDirectory}${FolderService.getSeparator(this.targetDirectory)}${file.fileName}`;
 				FileService.writeIntoFile(fullPath, file.fileContent);
 			});
 
@@ -88,8 +88,8 @@ export abstract class GenerateCommand {
 	private static async validateCommandParamters(
 		source: string,
 		sourceLanguage: string,
-		destination: string,
-		destinationLanguage: string
+		target: string,
+		targetLanguage: string
 	): Promise<any> {
 		try {
 			if (!FolderService.isValidDirectory(source)) {
@@ -100,16 +100,14 @@ export abstract class GenerateCommand {
 				throw new Error('Source language is not supported.');
 			}
 
-			if (
-				!SUPPORTED_DESTINATION_LANGUAGES.includes(destinationLanguage)
-			) {
-				throw new Error('Destination language is not supported.');
+			if (!SUPPORTED_TARGET_LANGUAGES.includes(targetLanguage)) {
+				throw new Error('Target language is not supported.');
 			}
 
 			this.sourceDirectory = source;
 			this.sourceLanguage = sourceLanguage as Language;
-			this.destinationDirectory = destination;
-			this.destinationLanguage = destinationLanguage as Language;
+			this.targetDirectory = target;
+			this.targetLanguage = targetLanguage as Language;
 		} catch (error: unknown) {
 			await ErrorHelper.handle(error);
 		}
@@ -119,8 +117,8 @@ export abstract class GenerateCommand {
 		try {
 			this.sourceLanguageConfiguration =
 				LANGUAGE_CONFIG_MAPPINGS[this.sourceLanguage];
-			this.destinationLanguageConfiguration =
-				LANGUAGE_CONFIG_MAPPINGS[this.destinationLanguage];
+			this.targetLanguageConfiguration =
+				LANGUAGE_CONFIG_MAPPINGS[this.targetLanguage];
 
 			if (this.sourceLanguageConfiguration.enumParser) {
 				this.enumParser = this.sourceLanguageConfiguration.enumParser;
@@ -130,12 +128,12 @@ export abstract class GenerateCommand {
 				);
 			}
 
-			if (this.destinationLanguageConfiguration.enumConverter) {
+			if (this.targetLanguageConfiguration.enumConverter) {
 				this.enumConverter =
-					this.destinationLanguageConfiguration.enumConverter;
+					this.targetLanguageConfiguration.enumConverter;
 			} else {
 				throw new Error(
-					'Enum Converter not implemented for the destination language.'
+					'Enum Converter not implemented for the target language.'
 				);
 			}
 		} catch (error: unknown) {

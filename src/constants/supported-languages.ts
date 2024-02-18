@@ -5,4 +5,4 @@ export const SUPPORTED_SOURCE_LANGUAGES: string[] = [
 	Language.TypeScript
 ];
 
-export const SUPPORTED_DESTINATION_LANGUAGES: string[] = [Language.Dart];
+export const SUPPORTED_TARGET_LANGUAGES: string[] = [Language.Dart];

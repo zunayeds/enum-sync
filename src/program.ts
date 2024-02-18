@@ -1,11 +1,19 @@
 #! /usr/bin/env node
 
 import { Command, program } from 'commander';
-import { ConfigCommand, GenerateCommand } from './commands';
+import { ConfigCommand, GenerateCommand, LanguageCommand } from './commands';
 
 export abstract class Program {
 	public static async initialize() {
 		program.version('1.0.0').description('A cross-platform enum generator');
+
+		program
+			.command('lang')
+			.description('List all supported languages')
+			.option('-t --table', 'Output in Table format')
+			.action(cmd =>
+				LanguageCommand.listAllSupportedLanguages(cmd.table)
+			);
 
 		const configCommand = new Command('config');
 
@@ -27,21 +35,18 @@ export abstract class Program {
 				'-src-lng --source-language <language>',
 				'Source Language'
 			)
+			.requiredOption('-tgt --target <directory>', 'Target Directory')
 			.requiredOption(
-				'-dst --destination <directory>',
-				'Destination Directory'
-			)
-			.requiredOption(
-				'-dst-lng --destination-language <language>',
-				'Destination Language'
+				'-tgt-lng --target-language <language>',
+				'Target Language'
 			)
 			.action(
 				async cmd =>
 					await GenerateCommand.generateFiles(
 						cmd.source,
 						cmd.sourceLanguage,
-						cmd.destination,
-						cmd.destinationLanguage
+						cmd.target,
+						cmd.targetLanguage
 					)
 			);
 
