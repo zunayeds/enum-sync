@@ -1,3 +1,5 @@
+import { LogService } from '../services/log-service';
+
 export abstract class ObjectHelper {
 	private constructor() {}
 
@@ -5,12 +7,16 @@ export abstract class ObjectHelper {
 		const keyValueGap = 5;
 		const maxLength = Math.max(...Object.keys(obj).map(key => key.length));
 
-		console.log('Key'.padEnd(maxLength + keyValueGap) + 'Value');
-		console.log('-'.repeat(maxLength + keyValueGap * 3));
+		LogService.showInfoMessage(
+			'Key'.padEnd(maxLength + keyValueGap) + 'Value'
+		);
+		LogService.showInfoMessage('-'.repeat(maxLength + keyValueGap * 3));
 
 		for (const key in obj) {
 			const value = obj[key];
-			console.log(key.padEnd(maxLength + keyValueGap) + value);
+			LogService.showInfoMessage(
+				key.padEnd(maxLength + keyValueGap) + value
+			);
 		}
 	}
 }

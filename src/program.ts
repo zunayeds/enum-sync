@@ -2,9 +2,17 @@
 
 import { Command, program } from 'commander';
 import { ConfigCommand, GenerateCommand, LanguageCommand } from './commands';
+import { ConfigService } from './services';
 
 export abstract class Program {
+	private constructor() {}
+
 	public static async initialize() {
+		await ConfigService.initialize();
+		await this.setCommands();
+	}
+
+	private static async setCommands(): Promise<void> {
 		program.version('1.0.0').description('A cross-platform enum generator');
 
 		program
@@ -21,8 +29,8 @@ export abstract class Program {
 			.command('list')
 			.description('List all configuration values')
 			.option('--json', 'Output in JSON format')
-			.action(cmd => {
-				ConfigCommand.listAllConfig(cmd.json);
+			.action(async cmd => {
+				await ConfigCommand.listAllConfig(cmd.json);
 			});
 
 		program.addCommand(configCommand);
@@ -31,15 +39,9 @@ export abstract class Program {
 			.command('gen')
 			.description('Generate File(s)')
 			.requiredOption('-src, --source <directory>', 'Source Directory')
-			.requiredOption(
-				'-src-lng --source-language <language>',
-				'Source Language'
-			)
+			.option('-src-lng --source-language <language>', 'Source Language')
 			.requiredOption('-tgt --target <directory>', 'Target Directory')
-			.requiredOption(
-				'-tgt-lng --target-language <language>',
-				'Target Language'
-			)
+			.option('-tgt-lng --target-language <language>', 'Target Language')
 			.action(
 				async cmd =>
 					await GenerateCommand.generateFiles(

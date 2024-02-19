@@ -4,6 +4,7 @@ import {
 } from '../constants';
 import { Language } from '../enums';
 import { EnumObject } from '../models';
+import { LogService } from '../services/log-service';
 import { EnumHelper } from '../utilities';
 
 export abstract class LanguageCommand {
@@ -45,7 +46,7 @@ export abstract class LanguageCommand {
 			.map(lang => `${lang.key}(${lang.value})`)
 			.join(', ');
 
-		console.log(
+		LogService.showInfoMessage(
 			`Supported ${this.sourceLanguageHeader}s: ${sourceLangs}\nSupported ${this.targetLanguageHeader}s: ${targetLangs}`
 		);
 	}
@@ -82,14 +83,14 @@ export abstract class LanguageCommand {
 			targetMaxCodeLength;
 
 		// Print header
-		console.log(
+		LogService.showInfoMessage(
 			'Source Language'.padEnd(sourceMaxNameLength + nameAndCodeGap) +
 				'Code'.padEnd(sourceMaxCodeLength + dividerGap) +
 				'|'.padEnd(dividerGap) +
 				'Target Language'.padEnd(targetMaxNameLength + nameAndCodeGap) +
 				'Code'
 		);
-		console.log(
+		LogService.showInfoMessage(
 			'-'.repeat(
 				totalWidth + endPadding + (nameAndCodeGap + dividerGap) * 2
 			)
@@ -110,7 +111,7 @@ export abstract class LanguageCommand {
 					value: ''
 				} as EnumObject);
 
-			console.log(
+			LogService.showInfoMessage(
 				sourceLang.key.padEnd(sourceMaxNameLength + nameAndCodeGap) +
 					sourceLang.value
 						.toString()

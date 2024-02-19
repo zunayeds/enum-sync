@@ -1,5 +1,4 @@
-import { FileService, FolderService } from '../services';
-import { Configuration } from '../configuration';
+import { ConfigService, FileService, FolderService } from '../services';
 import {
 	LANGUAGE_CONFIG_MAPPINGS,
 	LANGUAGE_ENGINE_MAPPINGS,
@@ -54,7 +53,12 @@ export abstract class GenerateCommand {
 		if (filesToProcess.length) {
 			let files: CodeFile[] = [];
 
-			if (Configuration.separateFileForEachType) {
+			const separateFileForEachType =
+				(await ConfigService.getSpecificConfiguration(
+					'separateFileForEachType'
+				)) as boolean;
+
+			if (separateFileForEachType) {
 				filesToProcess.forEach(file => {
 					const fileContent = FileService.readFile(file);
 					const genericEnums =

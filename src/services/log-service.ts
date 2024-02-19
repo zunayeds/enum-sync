@@ -1,6 +1,10 @@
 export abstract class LogService {
 	private constructor() {}
 
+	public static showInfoMessage(message: string): void {
+		console.log(message);
+	}
+
 	public static async showSuccessMessage(message: string): Promise<void> {
 		const chalk = await this.getChalkInstance();
 		console.log(chalk.green(message));

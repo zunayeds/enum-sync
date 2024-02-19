@@ -1,14 +1,17 @@
-import { Configuration } from '../configuration';
+import { ConfigService } from '../services';
+import { LogService } from '../services/log-service';
 import { ObjectHelper } from '../utilities';
 
 export abstract class ConfigCommand {
 	private constructor() {}
 
-	public static listAllConfig(json: boolean = false) {
+	public static async listAllConfig(json: boolean = false) {
+		const config = await ConfigService.getConfigurations();
+
 		if (json) {
-			console.log(JSON.stringify(Configuration, null, 2));
+			LogService.showInfoMessage(JSON.stringify(config, null, 2));
 		} else {
-			ObjectHelper.convertToTable(Configuration);
+			ObjectHelper.convertToTable(config);
 		}
 	}
 }
