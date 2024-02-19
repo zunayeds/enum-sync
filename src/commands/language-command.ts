@@ -7,6 +7,8 @@ import { EnumObject } from '../models';
 import { EnumHelper } from '../utilities';
 
 export abstract class LanguageCommand {
+	private constructor() {}
+
 	private static readonly sourceLanguageHeader: string = 'Source Language';
 	private static readonly targetLanguageHeader: string = 'Target Language';
 

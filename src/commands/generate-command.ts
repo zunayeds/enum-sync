@@ -18,6 +18,8 @@ import { ErrorHelper } from '../utilities';
 import { LogService } from '../services/log-service';
 
 export abstract class GenerateCommand {
+	private constructor() {}
+
 	private static sourceDirectory: string;
 	private static sourceLanguage: Language;
 	private static targetDirectory: string;

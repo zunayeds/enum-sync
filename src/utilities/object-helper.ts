@@ -1,4 +1,6 @@
 export abstract class ObjectHelper {
+	private constructor() {}
+
 	public static convertToTable(obj: Record<string, any>): void {
 		const keyValueGap = 5;
 		const maxLength = Math.max(...Object.keys(obj).map(key => key.length));

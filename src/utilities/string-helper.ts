@@ -1,4 +1,6 @@
 export abstract class StringHelper {
+	private constructor() {}
+
 	public static isNullOrWritespace(input: string): boolean {
 		return !input || !input.trim().length;
 	}

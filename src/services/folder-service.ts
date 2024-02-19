@@ -2,6 +2,8 @@ import { error } from 'console';
 import { existsSync, readdirSync, statSync } from 'fs';
 
 export abstract class FolderService {
+	private constructor() {}
+
 	public static getFiles(
 		folderPath: string,
 		fileExtension: string,

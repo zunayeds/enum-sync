@@ -4,6 +4,8 @@ import { StringHelper } from '../utilities';
 import { LanguageConfigurationBase } from '../models';
 
 export abstract class FileService {
+	private constructor() {}
+
 	public static readFile(filePath: string): string {
 		return readFileSync(filePath).toString();
 	}
