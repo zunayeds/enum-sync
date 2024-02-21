@@ -13,8 +13,20 @@ import {
 	LanguageEngineConfigurationBase
 } from '../models';
 import { EnumParserBase } from '../parsers';
-import { ErrorHelper } from '../utilities';
+import { ErrorHelper, StringHelper } from '../utilities';
 import { LogService } from '../services/log-service';
+import {
+	FILE_GENERATION_SUCCESS_MESSAGE,
+	INVALID_SOURCE_DIRECTORY_MESSAGE,
+	MISSING_ENUM_CONVERTER_IMPLEMENTATION_MESSAGE,
+	MISSING_ENUM_PARSER_IMPLEMENTATION_MESSAGE,
+	SAME_SOURCE_AND_TARGET_DIRECTORY_MESSAGE,
+	SAME_SOURCE_AND_TARGET_LANGUAGE_MESSAGE,
+	SOURCE_LANGUAGE_REQUIRED_MESSAGE,
+	TARGET_LANGUAGE_REQUIRED_MESSAGE,
+	UNSUPPORTED_SOURCE_LANGUAGE_MESSAGE,
+	UNSUPPORTED_TARGET_LANGUAGE_MESSAGE
+} from '../constants/messages';
 
 export abstract class GenerateCommand {
 	private constructor() {}
@@ -94,7 +106,9 @@ export abstract class GenerateCommand {
 				FileService.writeIntoFile(fullPath, file.fileContent);
 			});
 
-			await LogService.showSuccessMessage('File(s) generated');
+			await LogService.showSuccessMessage(
+				FILE_GENERATION_SUCCESS_MESSAGE
+			);
 		}
 	}
 
@@ -105,29 +119,40 @@ export abstract class GenerateCommand {
 		targetLanguage: string
 	): Promise<any> {
 		try {
+			const config = await ConfigService.getConfigurations();
+
 			if (!FolderService.isValidDirectory(source)) {
-				throw new Error('Source directory is not valid.');
+				throw new Error(INVALID_SOURCE_DIRECTORY_MESSAGE);
 			}
 
 			if (source === target) {
-				throw new Error(
-					'Source and Target directories cannot be the same.'
-				);
+				throw new Error(SAME_SOURCE_AND_TARGET_DIRECTORY_MESSAGE);
 			}
 
-			if (!SUPPORTED_SOURCE_LANGUAGES.includes(sourceLanguage)) {
-				throw new Error('Source language is not supported.');
+			if (
+				StringHelper.isNullOrWritespace(sourceLanguage) &&
+				!config.defaultSourceLanguage
+			) {
+				throw new Error(SOURCE_LANGUAGE_REQUIRED_MESSAGE);
+			} else if (!SUPPORTED_SOURCE_LANGUAGES.includes(sourceLanguage)) {
+				throw new Error(UNSUPPORTED_SOURCE_LANGUAGE_MESSAGE);
 			}
 
-			if (!SUPPORTED_TARGET_LANGUAGES.includes(targetLanguage)) {
-				throw new Error('Target language is not supported.');
+			if (
+				StringHelper.isNullOrWritespace(targetLanguage) &&
+				!config.defaultTargetLanguage
+			) {
+				throw new Error(TARGET_LANGUAGE_REQUIRED_MESSAGE);
+			} else if (!SUPPORTED_TARGET_LANGUAGES.includes(targetLanguage)) {
+				throw new Error(UNSUPPORTED_TARGET_LANGUAGE_MESSAGE);
 			}
 
 			if (sourceLanguage === targetLanguage) {
-				throw new Error(
-					'Source and Target languages cannot be the same.'
-				);
+				throw new Error(SAME_SOURCE_AND_TARGET_LANGUAGE_MESSAGE);
 			}
+
+			sourceLanguage == sourceLanguage ?? config.defaultSourceLanguage;
+			targetLanguage == targetLanguage ?? config.defaultTargetLanguage;
 
 			this.sourceDirectory = source;
 			this.sourceLanguage = sourceLanguage as Language;
@@ -152,17 +177,13 @@ export abstract class GenerateCommand {
 			if (this.sourceLanguageEngine.enumParser) {
 				this.enumParser = this.sourceLanguageEngine.enumParser;
 			} else {
-				throw new Error(
-					'Enum Parser not implemented for the source language.'
-				);
+				throw new Error(MISSING_ENUM_PARSER_IMPLEMENTATION_MESSAGE);
 			}
 
 			if (this.targetLanguageEngine.enumConverter) {
 				this.enumConverter = this.targetLanguageEngine.enumConverter;
 			} else {
-				throw new Error(
-					'Enum Converter not implemented for the target language.'
-				);
+				throw new Error(MISSING_ENUM_CONVERTER_IMPLEMENTATION_MESSAGE);
 			}
 		} catch (error: unknown) {
 			await ErrorHelper.handle(error);

@@ -3,6 +3,28 @@
 import { Command, program } from 'commander';
 import { ConfigCommand, GenerateCommand, LanguageCommand } from './commands';
 import { ConfigService } from './services';
+import {
+	CONFIG_COMMAND,
+	CONFIG_COMMAND_LIST_SUBCOMMAND,
+	CONFIG_COMMAND_LIST_SUBCOMMAND_DESCRIPTION,
+	CONFIG_COMMAND_LIST_SUBCOMMAND_JSON_OPTION,
+	CONFIG_COMMAND_LIST_SUBCOMMAND_JSON_OPTION_DESCRIPTION,
+	GENERATE_COMMAND,
+	GENERATE_COMMAND_DESCRIPTION,
+	GENERATE_COMMAND_SOURCE_LANGUAGE_OPTION,
+	GENERATE_COMMAND_SOURCE_LANGUAGE_OPTION_DESCRIPTION,
+	GENERATE_COMMAND_SOURCE_OPTION,
+	GENERATE_COMMAND_SOURCE_OPTION_DESCRIPTION,
+	GENERATE_COMMAND_TARGET_LANGUAGE_OPTION,
+	GENERATE_COMMAND_TARGET_LANGUAGE_OPTION_DESCRIPTION,
+	GENERATE_COMMAND_TARGET_OPTION,
+	GENERATE_COMMAND_TARGET_OPTION_DESCRIPTION,
+	LANGUAGE_COMMAND,
+	LANGUAGE_COMMAND_DESCRIPTION,
+	LANGUAGE_COMMAND_TABLE_OPTION,
+	LANGUAGE_COMMAND_TABLE_OPTION_DESCRIPTION
+} from './constants/commands';
+import { PROGRAM_DESCRIPTION, PROGRAM_VERSION } from './constants';
 
 export abstract class Program {
 	private constructor() {}
@@ -13,22 +35,28 @@ export abstract class Program {
 	}
 
 	private static async setCommands(): Promise<void> {
-		program.version('1.0.0').description('A cross-platform enum generator');
+		program.version(PROGRAM_VERSION).description(PROGRAM_DESCRIPTION);
 
 		program
-			.command('lang')
-			.description('List all supported languages')
-			.option('-t --table', 'Output in Table format')
+			.command(LANGUAGE_COMMAND)
+			.description(LANGUAGE_COMMAND_DESCRIPTION)
+			.option(
+				LANGUAGE_COMMAND_TABLE_OPTION,
+				LANGUAGE_COMMAND_TABLE_OPTION_DESCRIPTION
+			)
 			.action(cmd =>
 				LanguageCommand.listAllSupportedLanguages(cmd.table)
 			);
 
-		const configCommand = new Command('config');
+		const configCommand = new Command(CONFIG_COMMAND);
 
 		configCommand
-			.command('list')
-			.description('List all configuration values')
-			.option('--json', 'Output in JSON format')
+			.command(CONFIG_COMMAND_LIST_SUBCOMMAND)
+			.description(CONFIG_COMMAND_LIST_SUBCOMMAND_DESCRIPTION)
+			.option(
+				CONFIG_COMMAND_LIST_SUBCOMMAND_JSON_OPTION,
+				CONFIG_COMMAND_LIST_SUBCOMMAND_JSON_OPTION_DESCRIPTION
+			)
 			.action(async cmd => {
 				await ConfigCommand.listAllConfig(cmd.json);
 			});
@@ -36,12 +64,24 @@ export abstract class Program {
 		program.addCommand(configCommand);
 
 		program
-			.command('gen')
-			.description('Generate File(s)')
-			.requiredOption('-src, --source <directory>', 'Source Directory')
-			.option('-src-lng --source-language <language>', 'Source Language')
-			.requiredOption('-tgt --target <directory>', 'Target Directory')
-			.option('-tgt-lng --target-language <language>', 'Target Language')
+			.command(GENERATE_COMMAND)
+			.description(GENERATE_COMMAND_DESCRIPTION)
+			.requiredOption(
+				GENERATE_COMMAND_SOURCE_OPTION,
+				GENERATE_COMMAND_SOURCE_OPTION_DESCRIPTION
+			)
+			.option(
+				GENERATE_COMMAND_SOURCE_LANGUAGE_OPTION,
+				GENERATE_COMMAND_SOURCE_LANGUAGE_OPTION_DESCRIPTION
+			)
+			.requiredOption(
+				GENERATE_COMMAND_TARGET_OPTION,
+				GENERATE_COMMAND_TARGET_OPTION_DESCRIPTION
+			)
+			.option(
+				GENERATE_COMMAND_TARGET_LANGUAGE_OPTION,
+				GENERATE_COMMAND_TARGET_LANGUAGE_OPTION_DESCRIPTION
+			)
 			.action(
 				async cmd =>
 					await GenerateCommand.generateFiles(

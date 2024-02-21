@@ -13,11 +13,11 @@ export const GENERATOR_CONFIGURATION_SCHEMA: GenratorConfigSchemaType = {
 	separateFileForEachType: {
 		type: 'boolean'
 	},
-	favouriteSourceLanguage: {
+	defaultSourceLanguage: {
 		type: 'string',
 		enum: Object.values(Language)
 	},
-	favouriteTargetLanguage: {
+	defaultTargetLanguage: {
 		type: 'string',
 		enum: Object.values(Language)
 	}
