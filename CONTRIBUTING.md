@@ -8,7 +8,7 @@ npm install
 
 ## Adding a New Language
 
-To add support for a new language, either for parsing or converting or both, you need to add a new enum in the [`language.ts`](src/enums/language.ts) file.
+To add support for a new language, either for parsing or converting or both, you need to add a new enum in the [`language-enum.ts`](src/enums/language-enum.ts) file.
 
 Here are the steps:
 

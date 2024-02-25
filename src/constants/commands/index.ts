@@ -1,3 +1,3 @@
-export * from './config';
-export * from './generate';
-export * from './language';
+export * from './config-command';
+export * from './generate-command';
+export * from './language-command';
