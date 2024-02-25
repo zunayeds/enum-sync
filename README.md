@@ -20,12 +20,18 @@ To see a list of all the programming languages that Enum Generator supports, use
 enum-generator lang
 ```
 
-### Manage configuration
+### Manage configurations
 
-Enum Generator allows you to manage your configurations easily. To list all configurations, use the `config` command:
+Enum Generator allows you to manage your configurations easily. To list all configurations, use the `config list` command:
 
 ```sh
 enum-generator config list
+```
+
+You can also set configurations for the generator. To set specific configurations as key-value pairs, use the `config set` command:
+
+```sh
+enum-generator config set key1=value1 key2=value2 ...
 ```
 
 ### Generate enums

@@ -36,3 +36,16 @@ export const MISSING_ENUM_PARSER_IMPLEMENTATION_MESSAGE =
 	MISSING_ENUM_IMPLEMENTATION_MESSAGE(PARSER, SOURCE.toLowerCase());
 export const MISSING_ENUM_CONVERTER_IMPLEMENTATION_MESSAGE =
 	MISSING_ENUM_IMPLEMENTATION_MESSAGE(CONVERTER, TARGET.toLowerCase());
+
+export const INVALID_KEY_VALUE_PAIR_FORMAT_MESSAGE = (keyValue: string) =>
+	`Invalid key-value pair '${keyValue}'. Expected format is 'key=value'.`;
+export const DUPLICATE_KEY_MESSAGE = (key: string) =>
+	`Duplicate key '${key}' found.`;
+export const INVALID_CONFIG_KEY_MESSAGE = (key: string) =>
+	`Configuration key '${key}' is not valid.`;
+export const INVALID_CONFIG_VALUE_TYPE_MESSAGE = (key: string, type: string) =>
+	`Value of '${key}' must be '${type}'.`;
+export const INVALID_ENUM_CONFIG_VALUE_MESSAGE = (
+	key: string,
+	enumValues: string[]
+) => `Invalid value for '${key}'. Expected one of ${enumValues.join(', ')}.`;

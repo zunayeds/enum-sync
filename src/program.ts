@@ -9,6 +9,8 @@ import {
 	CONFIG_COMMAND_LIST_SUBCOMMAND_DESCRIPTION,
 	CONFIG_COMMAND_LIST_SUBCOMMAND_JSON_OPTION,
 	CONFIG_COMMAND_LIST_SUBCOMMAND_JSON_OPTION_DESCRIPTION,
+	CONFIG_COMMAND_SET_SUBCOMMAND,
+	CONFIG_COMMAND_SET_SUBCOMMAND_DESCRIPTION,
 	GENERATE_COMMAND,
 	GENERATE_COMMAND_DESCRIPTION,
 	GENERATE_COMMAND_SOURCE_LANGUAGE_OPTION,
@@ -59,6 +61,13 @@ export abstract class Program {
 			)
 			.action(async cmd => {
 				await ConfigCommand.listAllConfig(cmd.json);
+			});
+
+		configCommand
+			.command(CONFIG_COMMAND_SET_SUBCOMMAND)
+			.description(CONFIG_COMMAND_SET_SUBCOMMAND_DESCRIPTION)
+			.action(async keyValues => {
+				await ConfigCommand.setConfig(keyValues);
 			});
 
 		program.addCommand(configCommand);
