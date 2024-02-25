@@ -2,15 +2,9 @@
 
 Enum Generator is a powerful, cross-platform command-line tool designed to generate enums in various programming languages. It's easy to use and highly configurable, making it a go-to solution for all your enum generation needs.
 
-### Requirements
-
-Following versions of [Node.js](https://nodejs.org/en/download/) must be installed to run **`npm`**:
-
--   `14.X.X` or higher
-
 ## Installation
 
-To install Enum Generator, you need to have Node.js and npm installed on your machine. Once you have these, you can install Enum Generator globally with the following command:
+To install Enum Generator, you need to ensure that you have the Node.js version `14.X.X` or higher installed on your machine. Once you have this, you can install Enum Generator globally with the following command:
 
 ```sh
 npm install -g enum-generator
