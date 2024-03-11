@@ -20,6 +20,15 @@ To see a list of all the programming languages that Enum Generator supports, use
 enum-generator lang
 ```
 
+Currently supported languages:
+
+| Language        | Source | Target |
+| --------------- | ------ | ------ |
+| CSharp (cs)     | Yes    | No     |
+| JavaScript (js) | Yes    | No     |
+| TypeScript (ts) | Yes    | No     |
+| Dart (dart)     | No     | Yes    |
+
 ### Manage configurations
 
 Enum Generator allows you to manage your configurations easily. To list all configurations, use the `config list` command:
@@ -34,13 +43,36 @@ You can also set configurations for the generator. To set specific configuration
 enum-generator config set key1=value1 key2=value2 ...
 ```
 
+List of configuration property:
+
+| Property                  | Type       | Description                                                   | Default |
+| ------------------------- | ---------- | ------------------------------------------------------------- | ------- |
+| `separateFileForEachType` | `boolean`  | Determines whether to generate a separate file for each type. | `true`  |
+| `defaultSourceLanguage`   | `Language` | The default language of the source files.                     | `null`  |
+| `defaultTargetLanguage`   | `Language` | The default language of the target files.                     | `null`  |
+
 ### Generate enums
 
-To generate enums, you need to provide a source file and a target file. Use the `gen` command followed by the `--source` and `--target` flags:
+To generate enums, you need to provide a source file and a target file. Use the `gen` command followed by the `-src` and `-tgt` flags:
 
 ```sh
-enum-generator gen --source sourceDirectory --target targetDirectory
+enum-generator gen -src sourceDirectory -tgt targetDirectory
 ```
+
+If `defaultSourceLanguage` and/or `defaultTargetLanguage` not configured using `config` command, you need to provide `-src-lang` and `-tgt-lang` flags:
+
+```sh
+enum-generator gen -src sourceDirectory -src-lang sourceLanguage -tgt targetDirectory -tgt-lang targetLanguage
+```
+
+Command paramterers:
+
+| Parameter                     | Type     | Description                                                       | Required                                       |
+| ----------------------------- | -------- | ----------------------------------------------------------------- | ---------------------------------------------- |
+| `source`, `src`               | `string` | The source directory where the files to be processed are located. | Yes                                            |
+| `source-language`, `src-lang` | `string` | The language of the source files.                                 | Yes, if `defaultSourceLanguage` not configured |
+| `target`, `tgt`               | `string` | The target directory where the generated files will be written.   | Yes                                            |
+| `target-language`, `tgt-lang` | `string` | The language of the generated files.                              | Yes, if `defaultTargetLanguage` not configured |
 
 ## Changelog
 
