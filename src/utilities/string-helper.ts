@@ -44,6 +44,6 @@ export abstract class StringHelper {
 			.replace(/^[^A-Za-z0-9]*|[^A-Za-z0-9]*$/g, '') // Remove leading/trailing non-word characters
 			.split(/(?=[A-Z])|[^A-Za-z0-9]+/) // Split at uppercase letters or non-word characters
 			.filter(Boolean) // Remove any empty strings that might result from the split
-			.map(word => word.toLowerCase()); // Convert all words to lowercase for consistent processing
+			.map(word => word.toLowerCase());
 	}
 }

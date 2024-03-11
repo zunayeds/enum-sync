@@ -48,13 +48,11 @@ export abstract class FileService {
 		// Handle both UNIX-like ("/") and Windows ("\") path separators
 		const separators = ['/', '\\'];
 
-		// Split the path by each separator and get the last part
 		let fileName = filePath;
 		separators.forEach(separator => {
 			fileName = fileName.split(separator).pop() || fileName;
 		});
 
-		// Check and remove extension
 		if (!withExtension) {
 			const lastDotIndex = fileName.lastIndexOf('.');
 			if (lastDotIndex > 0) {

@@ -14,7 +14,6 @@ export abstract class LanguageCommand {
 	private static readonly targetLanguageHeader: string = 'Target Language';
 
 	public static listAllSupportedLanguages(table: boolean = false): void {
-		// Convert the enum to a list of objects
 		const langauges = EnumHelper.convertToEnumObjectList(Language);
 
 		const sourceLanguages = langauges
@@ -59,7 +58,6 @@ export abstract class LanguageCommand {
 		const dividerGap: number = 4;
 		const endPadding: number = 5;
 
-		// Calculate maximum lengths for name and code in both lists
 		const sourceMaxNameLength = Math.max(
 			this.sourceLanguageHeader.length,
 			...sourceLanguages.map(lang => lang.key.length)
@@ -75,14 +73,12 @@ export abstract class LanguageCommand {
 			...targetLanguages.map(lang => lang.value.toString().length)
 		);
 
-		// Calculate total width for formatting
 		const totalWidth =
 			sourceMaxNameLength +
 			sourceMaxCodeLength +
 			targetMaxNameLength +
 			targetMaxCodeLength;
 
-		// Print header
 		LogService.showInfoMessage(
 			'Source Language'.padEnd(sourceMaxNameLength + nameAndCodeGap) +
 				'Code'.padEnd(sourceMaxCodeLength + dividerGap) +
@@ -96,7 +92,6 @@ export abstract class LanguageCommand {
 			)
 		);
 
-		// Print language pairs
 		for (
 			let i = 0;
 			i < Math.max(sourceLanguages.length, targetLanguages.length);

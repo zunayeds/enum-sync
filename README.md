@@ -67,12 +67,12 @@ enum-generator gen -src sourceDirectory -src-lang sourceLanguage -tgt targetDire
 
 Command paramterers:
 
-| Parameter                     | Type     | Description                                                       | Required                                       |
-| ----------------------------- | -------- | ----------------------------------------------------------------- | ---------------------------------------------- |
-| `source`, `src`               | `string` | The source directory where the files to be processed are located. | Yes                                            |
-| `source-language`, `src-lang` | `string` | The language of the source files.                                 | Yes, if `defaultSourceLanguage` not configured |
-| `target`, `tgt`               | `string` | The target directory where the generated files will be written.   | Yes                                            |
-| `target-language`, `tgt-lang` | `string` | The language of the generated files.                              | Yes, if `defaultTargetLanguage` not configured |
+| Parameter                     | Type       | Description                                                       | Required                                               |
+| ----------------------------- | ---------- | ----------------------------------------------------------------- | ------------------------------------------------------ |
+| `source`, `src`               | `string`   | The source directory where the files to be processed are located. | Yes                                                    |
+| `source-language`, `src-lang` | `Language` | The language of the source files.                                 | No. Required if `defaultSourceLanguage` not configured |
+| `target`, `tgt`               | `string`   | The target directory where the generated files will be written.   | Yes                                                    |
+| `target-language`, `tgt-lang` | `Language` | The language of the generated files.                              | No. Required if `defaultTargetLanguage` not configured |
 
 ## Changelog
 
