@@ -1,11 +1,11 @@
 import {
 	DUPLICATE_KEY_MESSAGE,
 	INVALID_KEY_VALUE_PAIR_FORMAT_MESSAGE
-} from '../constants/messages';
+} from '../constants/messages/error-messages';
 import { GeneratorConfigurationBase } from '../models';
 import { ConfigService } from '../services';
 import { LogService } from '../services/log-service';
-import { ErrorHelper, ObjectHelper } from '../utilities';
+import { ErrorHandler, ObjectHelper } from '../utilities';
 
 export abstract class ConfigCommand {
 	private constructor() {}
@@ -50,7 +50,7 @@ export abstract class ConfigCommand {
 				newConfig as GeneratorConfigurationBase
 			);
 		} catch (error: unknown) {
-			await ErrorHelper.handle(error);
+			await ErrorHandler.handle(error);
 			return;
 		}
 	}

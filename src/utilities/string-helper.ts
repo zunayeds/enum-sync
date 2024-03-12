@@ -1,7 +1,7 @@
 export abstract class StringHelper {
 	private constructor() {}
 
-	public static isNullOrWritespace(input: string): boolean {
+	public static isNullOrWhitespace(input: string): boolean {
 		return !input || !input.trim().length;
 	}
 
@@ -23,11 +23,11 @@ export abstract class StringHelper {
 			.join('');
 	}
 
-	public static converToKebabCase(input: string): string {
+	public static convertToKebabCase(input: string): string {
 		return this.splitIntoWords(input).join('-');
 	}
 
-	public static converToSnakeCase(input: string): string {
+	public static convertToSnakeCase(input: string): string {
 		return this.splitIntoWords(input).join('_');
 	}
 

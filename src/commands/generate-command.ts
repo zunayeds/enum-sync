@@ -13,10 +13,9 @@ import {
 	LanguageEngineConfigurationBase
 } from '../models';
 import { EnumParserBase } from '../parsers';
-import { ErrorHelper, StringHelper } from '../utilities';
+import { ErrorHandler, StringHelper } from '../utilities';
 import { LogService } from '../services/log-service';
 import {
-	FILE_GENERATION_SUCCESS_MESSAGE,
 	INVALID_SOURCE_DIRECTORY_MESSAGE,
 	MISSING_ENUM_CONVERTER_IMPLEMENTATION_MESSAGE,
 	MISSING_ENUM_PARSER_IMPLEMENTATION_MESSAGE,
@@ -26,7 +25,8 @@ import {
 	TARGET_LANGUAGE_REQUIRED_MESSAGE,
 	UNSUPPORTED_SOURCE_LANGUAGE_MESSAGE,
 	UNSUPPORTED_TARGET_LANGUAGE_MESSAGE
-} from '../constants/messages';
+} from '../constants/messages/error-messages';
+import { FILE_GENERATION_SUCCESS_MESSAGE } from '../constants/messages/success-messages';
 
 export abstract class GenerateCommand {
 	private constructor() {}
@@ -130,7 +130,7 @@ export abstract class GenerateCommand {
 			}
 
 			if (
-				StringHelper.isNullOrWritespace(sourceLanguage) &&
+				StringHelper.isNullOrWhitespace(sourceLanguage) &&
 				!config.defaultSourceLanguage
 			) {
 				throw new Error(SOURCE_LANGUAGE_REQUIRED_MESSAGE);
@@ -139,7 +139,7 @@ export abstract class GenerateCommand {
 			}
 
 			if (
-				StringHelper.isNullOrWritespace(targetLanguage) &&
+				StringHelper.isNullOrWhitespace(targetLanguage) &&
 				!config.defaultTargetLanguage
 			) {
 				throw new Error(TARGET_LANGUAGE_REQUIRED_MESSAGE);
@@ -159,7 +159,7 @@ export abstract class GenerateCommand {
 			this.targetDirectory = target;
 			this.targetLanguage = targetLanguage as Language;
 		} catch (error: unknown) {
-			await ErrorHelper.handle(error);
+			await ErrorHandler.handle(error);
 		}
 	}
 
@@ -186,7 +186,7 @@ export abstract class GenerateCommand {
 				throw new Error(MISSING_ENUM_CONVERTER_IMPLEMENTATION_MESSAGE);
 			}
 		} catch (error: unknown) {
-			await ErrorHelper.handle(error);
+			await ErrorHandler.handle(error);
 		}
 	}
 }

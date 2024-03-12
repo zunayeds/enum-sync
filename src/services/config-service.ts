@@ -8,7 +8,7 @@ import {
 	INVALID_CONFIG_KEY_MESSAGE,
 	INVALID_CONFIG_VALUE_TYPE_MESSAGE,
 	INVALID_ENUM_CONFIG_VALUE_MESSAGE
-} from '../constants/messages';
+} from '../constants/messages/error-messages';
 import { GeneratorConfigurationBase } from '../models';
 
 export abstract class ConfigService {

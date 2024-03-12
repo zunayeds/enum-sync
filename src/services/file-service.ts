@@ -28,13 +28,13 @@ export abstract class FileService {
 				fileName = StringHelper.convertToCamelCase(name);
 				break;
 			case StringCasingType.KebabCase:
-				fileName = StringHelper.converToKebabCase(name);
+				fileName = StringHelper.convertToKebabCase(name);
 				break;
 			case StringCasingType.PascalCase:
 				fileName = StringHelper.convertToPascalCase(name);
 				break;
 			case StringCasingType.SnakeCase:
-				fileName = StringHelper.converToSnakeCase(name);
+				fileName = StringHelper.convertToSnakeCase(name);
 				break;
 		}
 
