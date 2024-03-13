@@ -8,7 +8,7 @@ const TARGET = 'Target';
 const PARSER = 'Parser';
 const CONVERTER = 'Converter';
 const LANGUAGE_REQUIRED_MESSAGE = (option: string, type: string) =>
-	`'${option}' option is required when default ${type} language is not set.\nEither set the default ${type} language using 'enum-gen config set default${type}Language <language>' or provide the ${type} language using '${option}' option.`;
+	`'${option}' option is required when default ${type} language is not set.\nEither set the default ${type} language using 'enum-sync config set default${type}Language <language>' or provide the ${type} language using '${option}' option.`;
 const UNSUPPORTED_LANGUAGE_MESSAGE = (type: string) =>
 	`${type} language is not valid.`;
 const MISSING_ENUM_IMPLEMENTATION_MESSAGE = (engine: string, type: string) =>

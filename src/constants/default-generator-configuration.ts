@@ -2,7 +2,7 @@ import { Language } from '../enums';
 import { GeneratorConfigurationBase } from '../models';
 import { GenratorConfigSchemaType } from '../types';
 
-export const GENERATOR_PROJECT_NAME = 'enum-generator';
+export const GENERATOR_PROJECT_NAME = 'enum-sync';
 export const GENERATOR_STORED_OBJECT_NAME = 'generator-configurations';
 
 export const DEFAULT_GENERATOR_CONFIGURATION: GeneratorConfigurationBase = {
