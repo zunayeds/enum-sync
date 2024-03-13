@@ -1,4 +1,4 @@
-# Contributing to Enum Generator
+# Contributing to Enum Synchronizer
 
 To get up and running, install the dependencies:
 
