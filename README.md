@@ -1,23 +1,23 @@
-# Enum Generator
+# Enum Synchronizer
 
-Enum Generator is a powerful, cross-platform command-line tool designed to generate enums in various programming languages. It's easy to use and highly configurable, making it a go-to solution for all your enum generation needs.
+Enum Synchronizer is a powerful, cross-platform command-line tool designed to generate synced enums in various programming languages. It's easy to use and highly configurable, making it a go-to solution for all your enum synchronization needs.
 
 ## Installation
 
-To install Enum Generator, you need to ensure that you have the Node.js version `14.X.X` or higher installed on your machine. Once you have this, you can install Enum Generator globally with the following command:
+To install Enum Synchronizer, you need to ensure that you have the Node.js version `14.X.X` or higher installed on your machine. Once you have this, you can install Enum Synchronizer globally with the following command:
 
 ```sh
-npm install -g enum-generator
+npm install -g enum-sync
 ```
 
 ## Usage
 
 ### List all supported languages
 
-To see a list of all the programming languages that Enum Generator supports, use the `lang` command:
+To see a list of all the programming languages that Enum Synchronizer supports, use the `lang` command:
 
 ```sh
-enum-generator lang
+enum-sync lang
 ```
 
 Currently supported languages:
@@ -31,16 +31,16 @@ Currently supported languages:
 
 ### Manage configurations
 
-Enum Generator allows you to manage your configurations easily. To list all configurations, use the `config list` command:
+Enum Synchronizer allows you to manage your configurations easily. To list all configurations, use the `config list` command:
 
 ```sh
-enum-generator config list
+enum-sync config list
 ```
 
 You can also set configurations for the generator. To set specific configurations as key-value pairs, use the `config set` command:
 
 ```sh
-enum-generator config set key1=value1 key2=value2 ...
+enum-sync config set key1=value1 key2=value2 ...
 ```
 
 List of configuration property:
@@ -56,13 +56,13 @@ List of configuration property:
 To generate enums, you need to provide a source file and a target file. Use the `gen` command followed by the `-src` and `-tgt` flags:
 
 ```sh
-enum-generator gen -src sourceDirectory -tgt targetDirectory
+enum-sync gen -src sourceDirectory -tgt targetDirectory
 ```
 
 If `defaultSourceLanguage` and/or `defaultTargetLanguage` not configured using `config` command, you need to provide `-src-lang` and `-tgt-lang` flags:
 
 ```sh
-enum-generator gen -src sourceDirectory -src-lang sourceLanguage -tgt targetDirectory -tgt-lang targetLanguage
+enum-sync gen -src sourceDirectory -src-lang sourceLanguage -tgt targetDirectory -tgt-lang targetLanguage
 ```
 
 Command paramterers:

@@ -1,14 +1,19 @@
 {
-	"name": "enum-generator",
+	"name": "enum-sync",
 	"version": "1.0.0",
-	"description": "A cross-platform enum generator.",
+	"description": "A cross-platform enum generator that let you sync enums between different languages.",
 	"main": "index.js",
+	"bin": "index.js",
 	"scripts": {
 		"build": "npx tsc",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
 	"author": "Zunayed Shahriar",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zunayeds/enum-sync.git"
+	},
 	"license": "Apache-2.0",
 	"devDependencies": {
 		"@types/node": "^20.11.16",
@@ -22,5 +27,6 @@
 	},
 	"engines": {
 		"node": ">=14.0.0"
-	}
+	},
+	"homepage": "https://github.com/zunayeds/enum-sync#readme"
 }
