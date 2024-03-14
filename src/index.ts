@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import { Program } from './program';
 
-Program.initialize().then(() => {});
+Program.initialize(process.argv).then(() => {});
