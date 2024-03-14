@@ -24,5 +24,25 @@ describe('ErrorHandler', () => {
 			logSpy.mockRestore();
 			exitSpy.mockRestore();
 		});
+
+		it('should log the error message and stop the process if stopProcess is not provided', async () => {
+			// Arrange
+			const error = new Error('Test error');
+			const logSpy = jest.spyOn(LogService, 'showErrorMessage');
+			const exitSpy = jest
+				.spyOn(process, 'exit')
+				.mockImplementation((code?: number) => undefined as never);
+
+			// Act
+			await ErrorHandler.handle(error);
+
+			// Assert
+			expect(logSpy).toHaveBeenCalledWith(error.message);
+			expect(exitSpy).toHaveBeenCalled();
+
+			// Cleanup
+			logSpy.mockRestore();
+			exitSpy.mockRestore();
+		});
 	});
 });

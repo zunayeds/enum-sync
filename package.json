@@ -13,7 +13,9 @@
 		"build": "npx tsc",
 		"test": "jest",
 		"test:watch": "jest --watchAll",
-		"test:watch-changes": "jest --watch"
+		"test:watch-changes": "jest --watch",
+		"test:watch-coverage": "jest --watchAll --coverage",
+		"test:clear": "jest --clearCache"
 	},
 	"keywords": [],
 	"author": "Zunayed Shahriar",

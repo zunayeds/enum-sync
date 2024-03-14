@@ -4,6 +4,7 @@ import { StringHelper } from '../utilities';
 import { LanguageConfigurationBase } from '../models';
 
 export abstract class FileService {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static readFile(filePath: string): string {

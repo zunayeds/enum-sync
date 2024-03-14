@@ -2,6 +2,7 @@ import { exit } from 'process';
 import { LogService } from '../services/log-service';
 
 export abstract class ErrorHandler {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static async handle(

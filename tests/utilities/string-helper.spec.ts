@@ -49,4 +49,31 @@ describe('StringHelper', () => {
 			);
 		});
 	});
+
+	describe('addQuotation', () => {
+		it('should add double quotes when doubleQuote is true', () => {
+			const result = StringHelper.addQuotation('test', true);
+			expect(result).toBe('"test"');
+		});
+
+		it('should add single quotes when doubleQuote is false', () => {
+			const result = StringHelper.addQuotation('test', false);
+			expect(result).toBe("'test'");
+		});
+
+		it('should add double quotes when doubleQuote is not provided', () => {
+			const result = StringHelper.addQuotation('test');
+			expect(result).toBe('"test"');
+		});
+
+		it('should convert number to string and add double quotes', () => {
+			const result = StringHelper.addQuotation(123, true);
+			expect(result).toBe('"123"');
+		});
+
+		it('should convert number to string and add single quotes', () => {
+			const result = StringHelper.addQuotation(123, false);
+			expect(result).toBe("'123'");
+		});
+	});
 });

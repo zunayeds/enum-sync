@@ -1,6 +1,7 @@
 import { LogService } from '../services/log-service';
 
 export abstract class ObjectHelper {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static convertToTable(obj: Record<string, any>): void {

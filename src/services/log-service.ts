@@ -1,4 +1,5 @@
 export abstract class LogService {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static showInfoMessage(message: string): void {
@@ -20,6 +21,7 @@ export abstract class LogService {
 		console.error(chalk.red(message));
 	}
 
+	/* istanbul ignore next */
 	private static async getChalkInstance(): Promise<any> {
 		const chalk = await import('chalk');
 		return chalk.default;

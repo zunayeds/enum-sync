@@ -1,4 +1,5 @@
 export abstract class StringHelper {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static isNullOrWhitespace(input: string): boolean {

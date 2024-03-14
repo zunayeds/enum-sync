@@ -2,6 +2,7 @@ import { error } from 'console';
 import { existsSync, readdirSync, statSync } from 'fs';
 
 export abstract class FolderService {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static getFiles(

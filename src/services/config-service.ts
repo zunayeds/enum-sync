@@ -12,6 +12,7 @@ import {
 import { GeneratorConfigurationBase } from '../models';
 
 export abstract class ConfigService {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static async getConfigurations(): Promise<GeneratorConfigurationBase> {

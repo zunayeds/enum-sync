@@ -1,6 +1,7 @@
 import { EnumObject } from '../models';
 
 export abstract class EnumHelper {
+	/* istanbul ignore next */
 	private constructor() {}
 
 	public static convertToEnumObjectList(enumObject: any): EnumObject[] {
