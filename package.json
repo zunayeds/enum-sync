@@ -1,9 +1,14 @@
 {
 	"name": "enum-sync",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A cross-platform enum generator that let you sync enums between different languages.",
-	"main": "index.js",
-	"bin": "index.js",
+	"main": "./build/index.js",
+	"bin": {
+		"enum-sync": "./build/index.js"
+	},
+	"files": [
+		"build/**/*"
+	],
 	"scripts": {
 		"build": "npx tsc",
 		"test": "jest",

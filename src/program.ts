@@ -31,12 +31,12 @@ import { PROGRAM_DESCRIPTION, PROGRAM_VERSION } from './constants';
 export abstract class Program {
 	private constructor() {}
 
-	public static async initialize() {
+	public static async initialize(argv: string[]) {
 		await ConfigService.initialize();
-		await this.setCommands();
+		this.setCommands(argv);
 	}
 
-	private static async setCommands(): Promise<void> {
+	private static async setCommands(argv: string[]): Promise<void> {
 		program.version(PROGRAM_VERSION).description(PROGRAM_DESCRIPTION);
 
 		program
@@ -101,6 +101,6 @@ export abstract class Program {
 					)
 			);
 
-		program.parse(process.argv);
+		program.parseAsync(argv).then(() => {});
 	}
 }
