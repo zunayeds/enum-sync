@@ -91,7 +91,11 @@ export abstract class ConfigService {
 		schema: any,
 		value: string
 	): GeneratorConfigurationBase[keyof GeneratorConfigurationBase] {
-		const trimmedLowerValue = value.toLowerCase().trim();
+		let trimmedLowerValue;
+
+		if (typeof value === 'string') {
+			trimmedLowerValue = value.trim().toLowerCase();
+		}
 
 		switch (schema.type) {
 			case 'boolean':
