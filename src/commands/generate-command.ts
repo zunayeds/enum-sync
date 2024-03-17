@@ -175,13 +175,14 @@ export abstract class GenerateCommand {
 				LANGUAGE_ENGINE_MAPPINGS[this.targetLanguage];
 
 			if (this.sourceLanguageEngine.enumParser) {
-				this.enumParser = this.sourceLanguageEngine.enumParser;
+				this.enumParser = new this.sourceLanguageEngine.enumParser();
 			} else {
 				throw new Error(MISSING_ENUM_PARSER_IMPLEMENTATION_MESSAGE);
 			}
 
 			if (this.targetLanguageEngine.enumConverter) {
-				this.enumConverter = this.targetLanguageEngine.enumConverter;
+				this.enumConverter =
+					new this.targetLanguageEngine.enumConverter();
 			} else {
 				throw new Error(MISSING_ENUM_CONVERTER_IMPLEMENTATION_MESSAGE);
 			}

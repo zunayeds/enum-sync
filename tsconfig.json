@@ -5,11 +5,11 @@
 		"lib": ["es6"],
 		"allowJs": true,
 		"outDir": "build",
-		"rootDirs": ["src", "tests"],
+		"rootDirs": ["src"],
 		"strict": true,
 		"noImplicitAny": true,
 		"esModuleInterop": true,
 		"resolveJsonModule": true
 	},
-	"exclude": ["tests", "jest.config.js"]
+	"exclude": ["tests", "coverage", "jest.config.js"]
 }
