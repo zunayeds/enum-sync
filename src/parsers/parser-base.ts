@@ -54,25 +54,19 @@ export abstract class EnumParserBase {
 			}
 		}
 
-		if (hasNumber && hasString) return EnumType.Heterogeneous;
+		if (hasString) {
+			return hasNumber ? EnumType.Heterogeneous : EnumType.String;
+		} else {
+			if (hasNumber) {
+				const allNumericSequential = items.every(
+					(item, index) =>
+						typeof item.value === 'number' && item.value === index
+				);
 
-		if (!hasNumber && hasString) return EnumType.String;
+				if (allNumericSequential) return EnumType.General;
+			}
 
-		if (hasNumber && !hasString) {
-			const allNumericSequential = items.every(
-				(item, index) =>
-					typeof item.value === 'number' && item.value === index
-			);
-			if (allNumericSequential) return EnumType.General;
-
-			const allNumeric = items.every(
-				item => typeof item.value === 'number'
-			);
-			if (allNumeric) return EnumType.Numeric;
-
-			return EnumType.PartiallyNumeric;
+			return EnumType.Numeric;
 		}
-
-		return EnumType.General;
 	}
 }

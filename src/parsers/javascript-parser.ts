@@ -25,9 +25,7 @@ export class JavaScriptParser extends EnumParserBase {
 					itemValueStr.trim().startsWith("'") ||
 					itemValueStr.trim().startsWith('"')
 						? itemValueStr.trim().slice(1, -1)
-						: isNaN(Number(itemValueStr))
-							? itemValueStr.trim()
-							: Number(itemValueStr);
+						: Number(itemValueStr);
 
 				itemValue = parsedValue;
 				if (typeof parsedValue === 'number') {
