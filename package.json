@@ -13,8 +13,9 @@
 		"build": "npx tsc",
 		"test": "jest",
 		"test:watch": "jest --watchAll",
-		"test:watch-changes": "jest --watch",
-		"test:watch-coverage": "jest --watchAll --coverage",
+		"test:changes-watch": "jest --watch",
+		"test:coverage-watch": "jest --watchAll --coverage",
+		"test:coverage-changes-watch": "jest --watch --coverage",
 		"test:clear": "jest --clearCache"
 	},
 	"keywords": [],

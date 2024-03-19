@@ -2,12 +2,10 @@ import { EnumConverterBase } from '../../src/converters/converter-base';
 import { EnumType, Language } from '../../src/enums';
 import { GenericEnum } from '../../src/models';
 
-jest.mock('../../src/converters/dart-converter', () => {
-	return {
-		DartConverter: jest.fn()
-	};
-});
+// mock all implemented conveters
+jest.mock('../../src/converters/dart-converter');
 
+// test class that extends EnumConverterBase
 class TestEnumConverter extends EnumConverterBase {
 	constructor() {
 		super(Language.TypeScript);
