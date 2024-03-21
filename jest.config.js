@@ -6,6 +6,7 @@ module.exports = {
 		'src/**/*.{js,ts}',
 		'!src/**/index.ts',
 		'!src/constants/**/*.ts',
-		'!src/enums/**/*.ts'
+		'!src/enums/**/*.ts',
+		'!src/errors/**/*.ts'
 	]
 };

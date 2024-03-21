@@ -1,31 +1,11 @@
 import { EnumConverterBase } from '.';
-import { DART_CONFIGURATION } from '../constants/language-configurations';
 import { EnumType, Language } from '../enums';
 import { StringHelper, TypeHelper } from '../utilities';
-import { CodeFile, GenericEnum } from '../models';
-import { FileService } from '../services';
+import { GenericEnum } from '../models';
 
 export class DartConverter extends EnumConverterBase {
 	constructor() {
 		super(Language.Dart);
-	}
-
-	public convertEnumsToFiles(genericEnums: GenericEnum[]): CodeFile[] {
-		let fileContents: CodeFile[] = [];
-
-		genericEnums.forEach(genericEnum => {
-			const content = this.convertEnum(genericEnum);
-
-			fileContents.push({
-				fileName: FileService.generateFileName(
-					genericEnum.name,
-					DART_CONFIGURATION
-				),
-				fileContent: content
-			});
-		});
-
-		return fileContents;
 	}
 
 	convertEnum(genericEnum: GenericEnum): string {
