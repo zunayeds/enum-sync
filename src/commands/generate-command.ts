@@ -27,6 +27,7 @@ import {
 	UNSUPPORTED_TARGET_LANGUAGE_MESSAGE
 } from '../constants/messages/error-messages';
 import { FILE_GENERATION_SUCCESS_MESSAGE } from '../constants/messages/success-messages';
+import { GeneratorService } from '../services/generator-service';
 
 export abstract class GenerateCommand {
 	private constructor() {}
@@ -47,7 +48,7 @@ export abstract class GenerateCommand {
 		sourceLanguage: string,
 		target: string,
 		targetLanguage: string
-	) {
+	): Promise<void> {
 		await this.validateCommandParamters(
 			source,
 			sourceLanguage,
@@ -64,6 +65,7 @@ export abstract class GenerateCommand {
 
 		if (filesToProcess.length) {
 			let files: CodeFile[] = [];
+			let promises: Promise<void>[] = [];
 
 			const separateFileForEachType =
 				(await ConfigService.getSpecificConfiguration(
@@ -71,12 +73,12 @@ export abstract class GenerateCommand {
 				)) as boolean;
 
 			if (separateFileForEachType) {
-				filesToProcess.forEach(file => {
+				promises = filesToProcess.map(async file => {
 					const fileContent = FileService.readFile(file);
 					const genericEnums =
 						this.enumParser.parseFileContent(fileContent);
 					files = files.concat(
-						this.enumConverter.convertEnumsToFiles(genericEnums)
+						await this.enumConverter.convertEnumsToFiles(genericEnums)
 					);
 				});
 			} else {
@@ -101,14 +103,22 @@ export abstract class GenerateCommand {
 				});
 			}
 
+			await Promise.all(promises);
+
 			files.forEach(file => {
 				const fullPath = `${this.targetDirectory}${FolderService.getSeparator(this.targetDirectory)}${file.fileName}`;
 				FileService.writeIntoFile(fullPath, file.fileContent);
 			});
 
-			await LogService.showSuccessMessage(
-				FILE_GENERATION_SUCCESS_MESSAGE
-			);
+			if (files.length) {
+				await LogService.showSuccessMessage(
+					FILE_GENERATION_SUCCESS_MESSAGE
+				);
+			}
+
+			const invalidFiles = GeneratorService.getInvalidFiles();
+			const invalidEnums = GeneratorService.getInvalidEnums();
+			const unsupportedEnums = GeneratorService.getInvalidEnums();
 		}
 	}
 
@@ -117,7 +127,7 @@ export abstract class GenerateCommand {
 		sourceLanguage: string,
 		target: string,
 		targetLanguage: string
-	): Promise<any> {
+	): Promise<void> {
 		try {
 			const config = await ConfigService.getConfigurations();
 

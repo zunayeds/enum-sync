@@ -2,13 +2,15 @@ import { EnumConverterBase } from '.';
 import { EnumType, Language } from '../enums';
 import { StringHelper, TypeHelper } from '../utilities';
 import { GenericEnum } from '../models';
+import { ConfigService } from '../services';
+import { GeneratorService } from '../services/generator-service';
 
 export class DartConverter extends EnumConverterBase {
 	constructor() {
 		super(Language.Dart);
 	}
 
-	convertEnum(genericEnum: GenericEnum): string {
+	async convertEnum(genericEnum: GenericEnum): Promise<string> {
 		let fileContent: string = '';
 
 		if (genericEnum.type === EnumType.General) {
@@ -17,7 +19,7 @@ export class DartConverter extends EnumConverterBase {
 			genericEnum.items.forEach(enumItem => {
 				fileContent += `\n\t${enumItem.name},`;
 			});
-		} else {
+		} else if (await ConfigService.isExpermentalEnumGenerationEnabled()) {
 			fileContent += `abstract class ${genericEnum.name} {`;
 
 			genericEnum.items.forEach(enumItem => {
@@ -25,10 +27,12 @@ export class DartConverter extends EnumConverterBase {
 				const isNumber = TypeHelper.isNumber(enumItem.value);
 				fileContent += `static ${isNumber ? 'int' : 'String'} get ${enumItem.name} => ${isNumber ? enumItem.value : StringHelper.addQuotation(enumItem.value)};`;
 			});
+		} else {
+			GeneratorService.addUnsupportedEnum(genericEnum.name);
 		}
 
 		fileContent += '\n}';
 
-		return fileContent;
+		return  fileContent;
 	}
 }

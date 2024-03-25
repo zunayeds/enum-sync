@@ -86,6 +86,14 @@ export abstract class ConfigService {
 		});
 	}
 
+	public static async isExpermentalEnumGenerationEnabled(): Promise<boolean> {
+		const key = "enableExperimentalGeneration";
+		const config = await this.getProjectConfig();
+		return config.get(
+			`${GENERATOR_STORED_OBJECT_NAME}.${key}`
+		);
+	}
+
 	private static convertValue(
 		key: string,
 		schema: any,

@@ -10,14 +10,14 @@ export abstract class EnumConverterBase {
 		this.languageConfiguration = LANGUAGE_CONFIG_MAPPINGS[this.language];
 	}
 
-	abstract convertEnum(genericEnum: GenericEnum): string;
+	abstract convertEnum(genericEnum: GenericEnum): Promise<string>;
 
 	public convertEnumsToString(genericEnums: GenericEnum[]): string {
 		return this.convertEnumsToStringInternal(genericEnums);
 	}
 
-	public convertEnumsToFiles(genericEnums: GenericEnum[]): CodeFile[] {
-		return this.convertEnumsToFilesInternal(genericEnums);
+	public async convertEnumsToFiles(genericEnums: GenericEnum[]): Promise<CodeFile[]> {
+		return  await this.convertEnumsToFilesInternal(genericEnums);
 	}
 
 	protected convertEnumsToStringInternal(
@@ -25,9 +25,9 @@ export abstract class EnumConverterBase {
 	): string {
 		let fileContent: string = '';
 
-		genericEnums.forEach(genericEnum => {
+		genericEnums.forEach(async genericEnum => {
 			fileContent += '\n\n';
-			fileContent += this.convertEnum(genericEnum);
+			fileContent += await this.convertEnum(genericEnum);
 		});
 
 		fileContent = fileContent.replace(/^\n\n/, '');
@@ -35,13 +35,13 @@ export abstract class EnumConverterBase {
 		return fileContent;
 	}
 
-	protected convertEnumsToFilesInternal(
+	protected async convertEnumsToFilesInternal(
 		genericEnums: GenericEnum[]
-	): CodeFile[] {
+	): Promise<CodeFile[]> {
 		let fileContents: CodeFile[] = [];
 
-		genericEnums.forEach(genericEnum => {
-			const content = this.convertEnum(genericEnum);
+		const promises = genericEnums.map(async genericEnum => {
+			const content = await this.convertEnum(genericEnum);
 
 			fileContents.push({
 				fileName: FileService.generateFileName(
@@ -51,6 +51,8 @@ export abstract class EnumConverterBase {
 				fileContent: content
 			});
 		});
+
+		await Promise.all(promises);
 
 		return fileContents;
 	}

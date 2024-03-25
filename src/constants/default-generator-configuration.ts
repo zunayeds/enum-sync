@@ -6,11 +6,15 @@ export const GENERATOR_PROJECT_NAME = 'enum-sync';
 export const GENERATOR_STORED_OBJECT_NAME = 'generator-configurations';
 
 export const DEFAULT_GENERATOR_CONFIGURATION: GeneratorConfigurationBase = {
-	separateFileForEachType: true
+	separateFileForEachType: true,
+	enableExperimentalGeneration: false
 };
 
 export const GENERATOR_CONFIGURATION_SCHEMA: GenratorConfigSchemaType = {
 	separateFileForEachType: {
+		type: 'boolean'
+	},
+	enableExperimentalGeneration: {
 		type: 'boolean'
 	},
 	defaultSourceLanguage: {

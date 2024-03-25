@@ -4,4 +4,5 @@ export interface GeneratorConfigurationBase {
 	separateFileForEachType: boolean;
 	defaultSourceLanguage?: Language;
 	defaultTargetLanguage?: Language;
+	enableExperimentalGeneration: boolean;
 }
