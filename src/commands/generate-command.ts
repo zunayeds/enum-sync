@@ -26,7 +26,7 @@ import {
 	UNSUPPORTED_SOURCE_LANGUAGE_MESSAGE,
 	UNSUPPORTED_TARGET_LANGUAGE_MESSAGE
 } from '../constants/messages/error-messages';
-import { FILE_GENERATION_SUCCESS_MESSAGE } from '../constants/messages/success-messages';
+import { FILE_GENERATION_SUCCESS_FORMAT_MESSAGE } from '../constants/messages/success-messages';
 import { GeneratorService } from '../services/generator-service';
 
 export abstract class GenerateCommand {
@@ -107,18 +107,15 @@ export abstract class GenerateCommand {
 
 			files.forEach(file => {
 				const fullPath = `${this.targetDirectory}${FolderService.getSeparator(this.targetDirectory)}${file.fileName}`;
-				FileService.writeIntoFile(fullPath, file.fileContent);
+				try {
+					FileService.writeIntoFile(fullPath, file.fileContent);
+					GeneratorService.addGeneratedFile(file.fileName);
+				} catch (error) {
+					GeneratorService.addGenerationFailedFile(file.fileName);
+				}
 			});
 
-			if (files.length) {
-				await LogService.showSuccessMessage(
-					FILE_GENERATION_SUCCESS_MESSAGE
-				);
-			}
-
-			const invalidFiles = GeneratorService.getInvalidFiles();
-			const invalidEnums = GeneratorService.getInvalidEnums();
-			const unsupportedEnums = GeneratorService.getInvalidEnums();
+			await this.logGenerationInfo();
 		}
 	}
 
@@ -173,7 +170,7 @@ export abstract class GenerateCommand {
 		}
 	}
 
-	private static async setGeneratorProperties(): Promise<any> {
+	private static async setGeneratorProperties(): Promise<void> {
 		try {
 			this.sourceLanguageConfiguration =
 				LANGUAGE_CONFIG_MAPPINGS[this.sourceLanguage];
@@ -198,6 +195,16 @@ export abstract class GenerateCommand {
 			}
 		} catch (error: unknown) {
 			await ErrorHandler.handle(error);
+		}
+	}
+
+	private static async logGenerationInfo(): Promise<void> {
+		const generationInfo = GeneratorService.getFileGenerationInfo();
+		
+		if (generationInfo.generatedFiles.length) {
+			await LogService.showSuccessMessage(
+				FILE_GENERATION_SUCCESS_FORMAT_MESSAGE(generationInfo.generatedFiles)
+			);
 		}
 	}
 }

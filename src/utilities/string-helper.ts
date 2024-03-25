@@ -40,6 +40,10 @@ export abstract class StringHelper {
 		else return `'${value.toString()}'`;
 	}
 
+	public static convertToCommaSeparatedString(intput: string[]) {
+		return intput.join(', ');
+	}
+
 	private static splitIntoWords(input: string): string[] {
 		return input
 			.replace(/^[^A-Za-z0-9]*|[^A-Za-z0-9]*$/g, '') // Remove leading/trailing non-word characters

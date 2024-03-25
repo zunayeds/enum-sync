@@ -5,3 +5,4 @@ export { LanguageConfigurationBase } from './language-configuration-base';
 export { LanguageConfigMap } from './language-config-map';
 export { EnumObject } from './enum-object';
 export { LanguageEngineConfigurationBase } from './language-engine-configuration-base';
+export { FileGenerationInfo } from './file-generation-info';

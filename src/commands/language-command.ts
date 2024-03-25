@@ -5,7 +5,7 @@ import {
 import { Language } from '../enums';
 import { EnumObject } from '../models';
 import { LogService } from '../services/log-service';
-import { EnumHelper } from '../utilities';
+import { EnumHelper, StringHelper } from '../utilities';
 
 export abstract class LanguageCommand {
 	private constructor() {}
@@ -38,12 +38,10 @@ export abstract class LanguageCommand {
 		sourceLanguages: EnumObject[],
 		targetLanguages: EnumObject[]
 	): void {
-		const sourceLangs = sourceLanguages
-			.map(lang => `${lang.key}(${lang.value})`)
-			.join(', ');
-		const targetLangs = targetLanguages
-			.map(lang => `${lang.key}(${lang.value})`)
-			.join(', ');
+		const sourceLangs = StringHelper.convertToCommaSeparatedString(sourceLanguages
+			.map(lang => `${lang.key}(${lang.value})`));
+		const targetLangs = StringHelper.convertToCommaSeparatedString(targetLanguages
+			.map(lang => `${lang.key}(${lang.value})`));
 
 		LogService.showInfoMessage(
 			`Supported ${this.sourceLanguageHeader}s: ${sourceLangs}\nSupported ${this.targetLanguageHeader}s: ${targetLangs}`
